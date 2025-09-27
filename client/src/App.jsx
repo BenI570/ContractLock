@@ -31,9 +31,11 @@ function App() {
     }
   };
 
+  const goBack = () => setRole(null);
+
   if (!account) {
     return (
-      <div>
+      <div className="container">
         <h1>Connect to MetaMask</h1>
         <button onClick={connectWallet}>Connect Wallet</button>
       </div>
@@ -42,7 +44,7 @@ function App() {
 
   if (!role) {
     return (
-      <div>
+      <div className="container">
         <h1>Select Your Role</h1>
         <button onClick={() => setRole('payer')}>Payer</button>
         <button onClick={() => setRole('creator')}>Contract Creator</button>
@@ -51,15 +53,15 @@ function App() {
   }
 
   if (role === 'payer') {
-    return <PayerView contract={contract} account={account} />;
+    return <PayerView contract={contract} account={account} goBack={goBack} />;
   }
 
   if (role === 'creator') {
-    return <CreatorView contract={contract} />;
+    return <CreatorView contract={contract} goBack={goBack} />;
   }
 
   return (
-    <div>
+    <div className="container">
       <h1>Welcome to ContractLock</h1>
       <p>Account: {account}</p>
     </div>

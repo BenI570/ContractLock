@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ethers } from 'ethers';
 
-const CreatorView = ({ contract }) => {
+const CreatorView = ({ contract, goBack }) => {
   const [beneficiary, setBeneficiary] = useState('');
   const [payers, setPayers] = useState('');
   const [amountPerPayer, setAmountPerPayer] = useState('');
@@ -30,7 +30,8 @@ const CreatorView = ({ contract }) => {
   };
 
   return (
-    <div>
+    <div className="container">
+      <button onClick={goBack} className="back-button">Back</button>
       <h2>Create Escrow</h2>
       <form onSubmit={(e) => { e.preventDefault(); handleCreateEscrow(); }}>
         <div>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const PayerView = ({ contract, account }) => {
+const PayerView = ({ contract, account, goBack }) => {
   const [escrows, setEscrows] = useState([]);
   const [selectedEscrow, setSelectedEscrow] = useState(null);
   const [escrowDetails, setEscrowDetails] = useState(null);
@@ -44,7 +44,8 @@ const PayerView = ({ contract, account }) => {
   };
 
   return (
-    <div>
+    <div className="container">
+      <button onClick={goBack} className="back-button">Back</button>
       <h2>Payer View</h2>
       <h3>Your Escrows</h3>
       <ul>
