@@ -33,8 +33,6 @@ function App() {
 
   const goBack = () => setRole(null);
 
-  console.log(account);
-
   if (!account) {
     return (
       <div className="container">
