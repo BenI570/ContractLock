@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { ethers } from 'ethers';
 
 const PayerView = ({ contract, account, goBack }) => {
   const [escrows, setEscrows] = useState([]);
