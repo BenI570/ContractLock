@@ -5,7 +5,7 @@ import PayerView from './components/PayerView';
 import CreatorView from './components/CreatorView';
 
 // IMPORTANT: Replace this with your contract's deployed address
-const contractAddress = 'YOUR_CONTRACT_ADDRESS';
+const contractAddress = '0x1e588Cc37AdC535Df081D12Da7c14e81B524B6E4';
 
 function App() {
   const [account, setAccount] = useState(null);
@@ -32,6 +32,8 @@ function App() {
   };
 
   const goBack = () => setRole(null);
+
+  console.log(account);
 
   if (!account) {
     return (
