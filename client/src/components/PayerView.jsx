@@ -49,10 +49,10 @@ const PayerView = ({ contract, account, goBack }) => {
       <h2>Payer View</h2>
       <h3>Your Escrows</h3>
       <ul>
-        {escrows.map(escrowId => (
+        {escrows.map((escrowId, i) => (
           <li key={escrowId}>
             <button onClick={() => handleSelectEscrow(escrowId)}>
-              Escrow #{escrowId}
+              Escrow #{i + 1}
             </button>
           </li>
         ))}
