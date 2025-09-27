@@ -1,315 +1,434 @@
-[{"anonymous": false,
-"inputs": [
-{
-"indexed": true,
-"internalType": "uint256",
-"name": "escrowId",
-"type": "uint256"
-},
-{
-"indexed": true,
-"internalType": "address",
-"name": "beneficiary",
-"type": "address"
-},
-{
-"indexed": false,
-"internalType": "uint256",
-"name": "amount",
-"type": "uint256"
-}
-],
-"name": "BeneficiaryClaimed",
-"type": "event"
-},
-{
-"anonymous": false,
-"inputs": [
-{
-"indexed": true,
-"internalType": "uint256",
-"name": "escrowId",
-"type": "uint256"
-},
-{
-"indexed": true,
-"internalType": "address",
-"name": "creator",
-"type": "address"
-},
-{
-"indexed": true,
-"internalType": "address",
-"name": "beneficiary",
-"type": "address"
-},
-{
-"indexed": false,
-"internalType": "uint256",
-"name": "amountPerPayer",
-"type": "uint256"
-},
-{
-"indexed": false,
-"internalType": "uint256",
-"name": "deadline",
-"type": "uint256"
-},
-{
-"indexed": false,
-"internalType": "address[]",
-"name": "payers",
-"type": "address[]"
-},
-{
-"indexed": false,
-"internalType": "address",
-"name": "token",
-"type": "address"
-}
-],
-"name": "EscrowCreated",
-"type": "event"
-},
-{
-"anonymous": false,
-"inputs": [
-{
-"indexed": true,
-"internalType": "uint256",
-"name": "escrowId",
-"type": "uint256"
-},
-{
-"indexed": true,
-"internalType": "address",
-"name": "payer",
-"type": "address"
-},
-{
-"indexed": false,
-"internalType": "uint256",
-"name": "amount",
-"type": "uint256"
-}
-],
-"name": "Paid",
-"type": "event"
-},
-{
-"anonymous": false,
-"inputs": [
-{
-"indexed": true,
-"internalType": "uint256",
-"name": "escrowId",
-"type": "uint256"
-},
-{
-"indexed": true,
-"internalType": "address",
-"name": "payer",
-"type": "address"
-},
-{
-"indexed": false,
-"internalType": "uint256",
-"name": "amount",
-"type": "uint256"
-}
-],
-"name": "RefundWithdrawn",
-"type": "event"
-},
-{
-"inputs": [
-{
-"internalType": "uint256",
-"name": "escrowId",
-"type": "uint256"
-}
-],
-"name": "allPaid",
-"outputs": [
-{
-"internalType": "bool",
-"name": "",
-"type": "bool"
-}
-],
-"stateMutability": "view",
-"type": "function"
-},
-{
-"inputs": [
-{
-"internalType": "uint256",
-"name": "escrowId",
-"type": "uint256"
-}
-],
-"name": "claimBeneficiary",
-"outputs": [],
-"stateMutability": "nonpayable",
-"type": "function"
-},
-{
-"inputs": [
-{
-"internalType": "address",
-"name": "_beneficiary",
-"type": "address"
-},
-{
-"internalType": "address[]",
-"name": "_payers",
-"type": "address[]"
-},
-{
-"internalType": "uint256",
-"name": "_amountPerPayer",
-"type": "uint256"
-},
-{
-"internalType": "uint256",
-"name": "_deadlineUnix",
-"type": "uint256"
-},
-{
-"internalType": "address",
-"name": "_tokenAddress",
-"type": "address"
-}
-],
-"name": "createEscrow",
-"outputs": [
-{
-"internalType": "uint256",
-"name": "escrowId",
-"type": "uint256"
-}
-],
-"stateMutability": "nonpayable",
-"type": "function"
-},
-{
-"inputs": [
-{
-"internalType": "uint256",
-"name": "escrowId",
-"type": "uint256"
-},
-{
-"internalType": "address",
-"name": "payer",
-"type": "address"
-}
-],
-"name": "depositedOf",
-"outputs": [
-{
-"internalType": "uint256",
-"name": "",
-"type": "uint256"
-}
-],
-"stateMutability": "view",
-"type": "function"
-},
-{
-"inputs": [
-{
-"internalType": "uint256",
-"name": "escrowId",
-"type": "uint256"
-}
-],
-"name": "getEscrowPayers",
-"outputs": [
-{
-"internalType": "address[]",
-"name": "",
-"type": "address[]"
-}
-],
-"stateMutability": "view",
-"type": "function"
-},
-{
-"inputs": [
-{
-"internalType": "uint256",
-"name": "escrowId",
-"type": "uint256"
-}
-],
-"name": "getEscrowToken",
-"outputs": [
-{
-"internalType": "address",
-"name": "",
-"type": "address"
-}
-],
-"stateMutability": "view",
-"type": "function"
-},
-{
-"inputs": [
-{
-"internalType": "address",
-"name": "user",
-"type": "address"
-}
-],
-"name": "getUserEscrows",
-"outputs": [
-{
-"internalType": "uint256[]",
-"name": "",
-"type": "uint256[]"
-}
-],
-"stateMutability": "view",
-"type": "function"
-},
-{
-"inputs": [],
-"name": "nextEscrowId",
-"outputs": [
-{
-"internalType": "uint256",
-"name": "",
-"type": "uint256"
-}
-],
-"stateMutability": "view",
-"type": "function"
-},
-{
-"inputs": [
-{
-"internalType": "uint256",
-"name": "escrowId",
-"type": "uint256"
-}
-],
-"name": "pay",
-"outputs": [],
-"stateMutability": "payable",
-"type": "function"
-},
-{
-"inputs": [
-{
-"internalType": "uint256",
-"name": "escrowId",
-"type": "uint256"
-}
-],
-"name": "withdrawRefund",
-"outputs": [],
-"stateMutability": "nonpayable",
-"type": "function"
-}
+[
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "escrowId",
+				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "beneficiary",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "BeneficiaryClaimed",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "escrowId",
+				"type": "uint256"
+			}
+		],
+		"name": "claimBeneficiary",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_beneficiary",
+				"type": "address"
+			},
+			{
+				"internalType": "address[]",
+				"name": "_payers",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amountPerPayer",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_deadlineUnix",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_tokenAddress",
+				"type": "address"
+			}
+		],
+		"name": "createEscrow",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "escrowId",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "escrowId",
+				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "beneficiary",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amountPerPayer",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "deadline",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address[]",
+				"name": "payers",
+				"type": "address[]"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "token",
+				"type": "address"
+			}
+		],
+		"name": "EscrowCreated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "escrowId",
+				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "payer",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "Paid",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "escrowId",
+				"type": "uint256"
+			}
+		],
+		"name": "pay",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "escrowId",
+				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "payer",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "RefundWithdrawn",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "escrowId",
+				"type": "uint256"
+			}
+		],
+		"name": "withdrawRefund",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "escrowId",
+				"type": "uint256"
+			}
+		],
+		"name": "allPaid",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "escrowId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "payer",
+				"type": "address"
+			}
+		],
+		"name": "depositedOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "escrows",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "beneficiary",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amountPerPayer",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "deadline",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "totalDeposited",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "beneficiaryClaimed",
+				"type": "bool"
+			},
+			{
+				"internalType": "contract IERC20",
+				"name": "token",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "escrowId",
+				"type": "uint256"
+			}
+		],
+		"name": "getEscrowDetails",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "creator",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "beneficiary",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amountPerPayer",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "deadline",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "beneficiaryClaimed",
+				"type": "bool"
+			},
+			{
+				"internalType": "address",
+				"name": "token",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "escrowId",
+				"type": "uint256"
+			}
+		],
+		"name": "getEscrowPayers",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "escrowId",
+				"type": "uint256"
+			}
+		],
+		"name": "getEscrowToken",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			}
+		],
+		"name": "getUserEscrows",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "nextEscrowId",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "userEscrows",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
 ]

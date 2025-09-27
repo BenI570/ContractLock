@@ -1,4 +1,3 @@
-
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
@@ -147,8 +146,7 @@ contract ContractLock is ReentrancyGuard {
         if (address(e.token) == address(0)) {
             (bool ok, ) = msg.sender.call{value: bal}("");
             require(ok, "refund failed");
-        }
-        else {
+        } else {
             require(e.token.transfer(msg.sender, bal), "refund failed");
         }
 
@@ -208,134 +206,6 @@ contract ContractLock is ReentrancyGuard {
             escrow.deadline,
             escrow.beneficiaryClaimed,
             address(escrow.token)
-        );
-    }
-}
-"Deadline has passed");
-        require(
-            msg.value == escrow.amountPerPayer,
-            "Incorrect payment amount"
-        );
-
-        bool isPayer = false;
-        for (uint i = 0; i < escrow.payers.length; i++) {
-            if (escrow.payers[i] == msg.sender) {
-                isPayer = true;
-                break;
-            }
-        }
-        require(isPayer, "Not a designated payer");
-        require(
-            escrow.deposited[msg.sender] == 0,
-            "Payer has already deposited"
-        );
-
-        escrow.deposited[msg.sender] = msg.value;
-        emit Paid(escrowId, msg.sender, msg.value);
-    }
-
-    function allPaid(uint256 escrowId) public view returns (bool) {
-        Escrow storage escrow = escrows[escrowId];
-        for (uint i = 0; i < escrow.payers.length; i++) {
-            if (escrow.deposited[escrow.payers[i]] == 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    function claimBeneficiary(uint256 escrowId) external {
-        Escrow storage escrow = escrows[escrowId];
-        require(
-            msg.sender == escrow.beneficiary,
-            "Only beneficiary can claim"
-        );
-        require(allPaid(escrowId), "Not all payers have deposited");
-        require(!escrow.beneficiaryClaimed, "Beneficiary has already claimed");
-
-        uint256 totalAmount = escrow.amountPerPayer * escrow.payers.length;
-        escrow.beneficiaryClaimed = true;
-
-        (bool success, ) = payable(escrow.beneficiary).call{
-            value: totalAmount
-        }("");
-        require(success, "Transfer failed");
-
-        emit BeneficiaryClaimed(escrowId, escrow.beneficiary, totalAmount);
-    }
-
-    function withdrawRefund(uint256 escrowId) external {
-        Escrow storage escrow = escrows[escrowId];
-        require(
-            block.timestamp >= escrow.deadline,
-            "Deadline has not passed yet"
-        );
-        require(!allPaid(escrowId), "All payers have paid, no refund");
-
-        uint256 amountToRefund = escrow.deposited[msg.sender];
-        require(amountToRefund > 0, "No deposit to refund");
-
-        escrow.deposited[msg.sender] = 0; // Prevent re-entrancy
-
-        (bool success, ) = payable(msg.sender).call{value: amountToRefund}("");
-        require(success, "Refund transfer failed");
-
-        emit RefundWithdrawn(escrowId, msg.sender, amountToRefund);
-    }
-
-    // Getter functions for frontend
-    function getUserEscrows(address user)
-        external
-        view
-        returns (uint256[] memory)
-    {
-        return userEscrows[user];
-    }
-
-    function depositedOf(uint256 escrowId, address payer)
-        external
-        view
-        returns (uint256)
-    {
-        return escrows[escrowId].deposited[payer];
-    }
-
-    function getEscrowPayers(uint256 escrowId)
-        external
-        view
-        returns (address[] memory)
-    {
-        return escrows[escrowId].payers;
-    }
-
-    function getEscrowToken(uint256 escrowId)
-        external
-        view
-        returns (address)
-    {
-        return escrows[escrowId].token;
-    }
-
-    function getEscrowDetails(uint256 escrowId)
-        external
-        view
-        returns (
-            address creator,
-            address beneficiary,
-            uint256 amountPerPayer,
-            uint256 deadline,
-            bool beneficiaryClaimed,
-            address token
-        )
-    {
-        Escrow storage escrow = escrows[escrowId];
-        return (
-            escrow.creator,
-            escrow.beneficiary,
-            escrow.amountPerPayer,
-            escrow.deadline,
-            escrow.beneficiaryClaimed,
-            escrow.token
         );
     }
 }
