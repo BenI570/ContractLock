@@ -129,6 +129,9 @@ const PayerView = ({ contract, account, goBack }) => {
               {userDeposit > 0 && (
                 <p>You have already paid.</p>
               )}
+              {isDeadlinePassed() && !allHavePaid && userDeposit === 0 && (
+                <p>You have withdrawn your funds.</p>
+              )}
             </>
           )}
 
