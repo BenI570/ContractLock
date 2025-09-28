@@ -42,8 +42,7 @@ function App() {
           <img src="/ContractLock.png" className="App-logo" alt="logo" style={{ width: '50px' }} />
           <h1>ContractLock</h1>
         </div>
-        <h1>Connect to MetaMask</h1>
-        <button onClick={connectWallet}>Connect Wallet</button>
+        <button onClick={connectWallet}>Connect MetaMask Wallet</button>
       </div>
     );
   }
@@ -51,10 +50,6 @@ function App() {
   if (!role) {
     return (
       <div className="container">
-        <div className="App-header">
-          <img src="/ContractLock.png" className="App-logo" alt="logo" style={{ width: '200px' }} />
-          <h1>ContractLock</h1>
-        </div>
         <h1>Select Your Role</h1>
         <button onClick={() => setRole('payer')}>Payer</button>
         <button onClick={() => setRole('creator')}>Contract Creator</button>
