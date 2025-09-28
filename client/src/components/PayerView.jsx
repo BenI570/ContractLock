@@ -6,7 +6,7 @@ const PayerView = ({ contract, account, goBack }) => {
   const [selectedEscrow, setSelectedEscrow] = useState(null);
   const [escrowDetails, setEscrowDetails] = useState(null);
   const [allHavePaid, setAllHavePaid] = useState(false);
-  const [userDeposit, setUserDeposit] = useState(null);
+  const [userDeposit, setUserDeposit] = useState(0);
 
   useEffect(() => {
     const getEscrows = async () => {
@@ -83,7 +83,7 @@ const PayerView = ({ contract, account, goBack }) => {
   };
 
   const showPayButton = () => {
-    if (!escrowDetails || !userDeposit) return false;
+    if (!escrowDetails) return false;
     return (
       !isDeadlinePassed() &&
       !allHavePaid &&
