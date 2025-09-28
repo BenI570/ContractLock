@@ -76,3 +76,15 @@ ul {
   list-style: none;
   padding: 0;
 }
+
+.App-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.App-logo {
+  margin-right: 10px;
+}
