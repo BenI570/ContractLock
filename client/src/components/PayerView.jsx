@@ -120,7 +120,16 @@ const PayerView = ({ contract, account, goBack }) => {
           <p>Amount per Payer: {ethers.formatEther(escrowDetails.amountPerPayer)} ETH</p>
           <p>Deadline: {new Date(Number(escrowDetails.deadline) * 1000).toLocaleString()}</p>
           <p>All Payers Have Paid: {allHavePaid || beneficiaryClaimed ? 'Yes' : 'No'}</p>
-          {(userDeposit > 0 || beneficiaryClaimed) && <p>You have already paid.</p>}
+          {selectedEscrow && escrowDetails && (
+            <>
+              {account.toLowerCase() === escrowDetails.beneficiary.toLowerCase() && beneficiaryClaimed && (
+                <p>You have already claimed.</p>
+              )}
+              {userDeposit > 0 && (
+                <p>You have already paid.</p>
+              )}
+            </>
+          )}
 
           {showPayButton() && (
             <button onClick={handlePay} disabled={paying}>
