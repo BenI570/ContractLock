@@ -5,6 +5,7 @@ const PayerView = ({ contract, account, goBack }) => {
   const [escrows, setEscrows] = useState([]);
   const [selectedEscrow, setSelectedEscrow] = useState(null);
   const [escrowDetails, setEscrowDetails] = useState(null);
+  const [allHavePaid, setAllHavePaid] = useState(false);
 
   useEffect(() => {
     const getEscrows = async () => {
@@ -24,8 +25,10 @@ const PayerView = ({ contract, account, goBack }) => {
     setSelectedEscrow(escrowId);
     if (contract) {
       try {
-        const details = await contract.escrows(escrowId);
+        const details = await contract.getEscrowDetails(escrowId);
+        const allPaid = await contract.allPaid(escrowId);
         setEscrowDetails(details);
+        setAllHavePaid(allPaid);
       } catch (error) {
         console.error('Error fetching escrow details:', error);
       }
@@ -38,10 +41,42 @@ const PayerView = ({ contract, account, goBack }) => {
         const tx = await contract.pay(selectedEscrow, { value: escrowDetails.amountPerPayer });
         await tx.wait();
         alert('Payment successful!');
+        handleSelectEscrow(selectedEscrow); // Refresh details
       } catch (error) {
         console.error('Error making payment:', error);
       }
     }
+  };
+
+  const handleWithdraw = async () => {
+    if (contract && selectedEscrow) {
+      try {
+        const tx = await contract.withdrawRefund(selectedEscrow);
+        await tx.wait();
+        alert('Withdrawal successful!');
+        handleSelectEscrow(selectedEscrow); // Refresh details
+      } catch (error) {
+        console.error('Error withdrawing refund:', error);
+      }
+    }
+  };
+
+  const handleClaim = async () => {
+    if (contract && selectedEscrow) {
+      try {
+        const tx = await contract.claimBeneficiary(selectedEscrow);
+        await tx.wait();
+        alert('Funds claimed successfully!');
+        handleSelectEscrow(selectedEscrow); // Refresh details
+      } catch (error) {
+        console.error('Error claiming funds:', error);
+      }
+    }
+  };
+
+  const isDeadlinePassed = () => {
+    if (!escrowDetails) return false;
+    return new Date().getTime() / 1000 > escrowDetails.deadline;
   };
 
   return (
@@ -62,7 +97,20 @@ const PayerView = ({ contract, account, goBack }) => {
         <div>
           <h3>Escrow Details</h3>
           <p>Amount per Payer: {ethers.formatEther(escrowDetails.amountPerPayer)} ETH</p>
-          <button onClick={handlePay}>Pay</button>
+          <p>Deadline: {new Date(Number(escrowDetails.deadline) * 1000).toLocaleString()}</p>
+          <p>All Payers Have Paid: {allHavePaid ? 'Yes' : 'No'}</p>
+
+          {!isDeadlinePassed() && !allHavePaid && (
+            <button onClick={handlePay}>Pay</button>
+          )}
+
+          {isDeadlinePassed() && !allHavePaid && (
+            <button onClick={handleWithdraw}>Withdraw Refund</button>
+          )}
+
+          {allHavePaid && account.toLowerCase() === escrowDetails.beneficiary.toLowerCase() && (
+            <button onClick={handleClaim}>Claim Funds</button>
+          )}
         </div>
       )}
     </div>

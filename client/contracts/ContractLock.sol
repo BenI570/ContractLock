@@ -115,7 +115,6 @@ contract ContractLock is ReentrancyGuard {
         require(msg.sender == e.beneficiary, "only beneficiary");
         require(!e.beneficiaryClaimed, "already claimed");
         require(allPaid(escrowId), "not all paid");
-        require(block.timestamp <= e.deadline, "deadline passed");
 
         e.beneficiaryClaimed = true;
         uint256 amount = e.totalDeposited;

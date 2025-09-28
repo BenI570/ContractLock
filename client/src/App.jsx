@@ -5,7 +5,7 @@ import PayerView from './components/PayerView';
 import CreatorView from './components/CreatorView';
 
 // IMPORTANT: Replace this with your contract's deployed address
-const contractAddress = '0xba141Efade47e8E696d97943A51e56A31E2B3921';
+const contractAddress = '0xc2469A77388B9e4adB3C8f3710dFFcef8802Fb77';
 
 function App() {
   const [account, setAccount] = useState(null);
