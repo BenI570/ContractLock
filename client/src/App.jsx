@@ -18,6 +18,15 @@ function App() {
       try {
         const provider = new ethers.BrowserProvider(window.ethereum);
         const accounts = await provider.send('eth_requestAccounts', []);
+        const network = await provider.getNetwork();
+
+        console.log("--- DEBUG INFO ---");
+        console.log("Contract Address:", contractAddress);
+        console.log("Connected Account:", accounts[0]);
+        console.log("Network Name:", network.name);
+        console.log("Network Chain ID:", Number(network.chainId));
+        console.log("--------------------");
+
         setAccount(accounts[0]);
         setProvider(provider);
         const signer = await provider.getSigner();

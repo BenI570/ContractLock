@@ -94,14 +94,15 @@ contract ContractLock is ReentrancyGuard {
             // native token
             require(msg.value == e.amountPerPayer, "send exact amount");
             e.deposited[msg.sender] = msg.value;
+            e.totalDeposited += msg.value;
         } else {
             // ERC-20 token
             require(msg.value == 0, "do not send native token");
             require(e.token.transferFrom(msg.sender, address(this), e.amountPerPayer), "transfer failed");
             e.deposited[msg.sender] = e.amountPerPayer;
+            e.totalDeposited += e.amountPerPayer;
         }
 
-        e.totalDeposited += e.amountPerPayer;
         emit Paid(escrowId, msg.sender, e.amountPerPayer);
     }
 
