@@ -6,6 +6,7 @@ const PayerView = ({ contract, account, goBack }) => {
   const [selectedEscrow, setSelectedEscrow] = useState(null);
   const [escrowDetails, setEscrowDetails] = useState(null);
   const [allHavePaid, setAllHavePaid] = useState(false);
+  const [userDeposit, setUserDeposit] = useState(null);
 
   useEffect(() => {
     const getEscrows = async () => {
@@ -27,8 +28,10 @@ const PayerView = ({ contract, account, goBack }) => {
       try {
         const details = await contract.getEscrowDetails(escrowId);
         const allPaid = await contract.allPaid(escrowId);
+        const deposit = await contract.depositedOf(escrowId, account);
         setEscrowDetails(details);
         setAllHavePaid(allPaid);
+        setUserDeposit(deposit);
       } catch (error) {
         console.error('Error fetching escrow details:', error);
       }
@@ -79,6 +82,16 @@ const PayerView = ({ contract, account, goBack }) => {
     return new Date().getTime() / 1000 > escrowDetails.deadline;
   };
 
+  const showPayButton = () => {
+    if (!escrowDetails || !userDeposit) return false;
+    return (
+      !isDeadlinePassed() &&
+      !allHavePaid &&
+      userDeposit == 0 &&
+      account.toLowerCase() !== escrowDetails.beneficiary.toLowerCase()
+    );
+  };
+
   return (
     <div className="container">
       <button onClick={goBack} className="back-button">Back</button>
@@ -99,12 +112,13 @@ const PayerView = ({ contract, account, goBack }) => {
           <p>Amount per Payer: {ethers.formatEther(escrowDetails.amountPerPayer)} ETH</p>
           <p>Deadline: {new Date(Number(escrowDetails.deadline) * 1000).toLocaleString()}</p>
           <p>All Payers Have Paid: {allHavePaid ? 'Yes' : 'No'}</p>
+          {userDeposit > 0 && <p>You have already paid.</p>}
 
-          {!isDeadlinePassed() && !allHavePaid && (
+          {showPayButton() && (
             <button onClick={handlePay}>Pay</button>
           )}
 
-          {isDeadlinePassed() && !allHavePaid && (
+          {isDeadlinePassed() && !allHavePaid && userDeposit > 0 && (
             <button onClick={handleWithdraw}>Withdraw Refund</button>
           )}
 
