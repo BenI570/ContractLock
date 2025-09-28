@@ -117,6 +117,7 @@ const PayerView = ({ contract, account, goBack }) => {
       {selectedEscrow && escrowDetails && (
         <div>
           <h3>Escrow Details</h3>
+          <p>Beneficiary: {escrowDetails.beneficiary}</p>
           <p>Amount per Payer: {ethers.formatEther(escrowDetails.amountPerPayer)} ETH</p>
           <p>Deadline: {new Date(Number(escrowDetails.deadline) * 1000).toLocaleString()}</p>
           <p>All Payers Have Paid: {allHavePaid || beneficiaryClaimed ? 'Yes' : 'No'}</p>
