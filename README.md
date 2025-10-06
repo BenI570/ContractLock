@@ -13,4 +13,5 @@ Follow Step 1 of [this guide](https://dev.flare.network/network/getting-started/
 
 ## Demo Video
 [Part 1](https://www.youtube.com/watch?v=Qz10i6Ui5y4)
+
 [Part 2](https://www.youtube.com/watch?v=5E5qx4o9fgU)
